@@ -18,7 +18,7 @@ export default async function ContactPage() {
           <div className="space-y-8">
             <ul className="space-y-5">
               <li className="flex gap-4"><MapPin className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Address</p><p>{c.address}</p></div></li>
-              <li className="flex gap-4"><Phone className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Phone</p><a href={`tel:${c.phone.replace(/\\s/g, "")}`} className="hover:text-cobalt">{c.phone}</a></div></li>
+              <li className="flex gap-4"><Phone className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Phone</p><a href={`tel:${c.phone.replace(/\s/g, "")}`} className="hover:text-cobalt">{c.phone}</a></div></li>
               <li className="flex gap-4"><Mail className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Email</p><a href={`mailto:${c.email}`} className="hover:text-cobalt">{c.email}</a></div></li>
             </ul>
             <a href={whatsappLink(c.whatsapp, "Hello Tempest! I'd like to ask about an appointment.")} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
