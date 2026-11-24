@@ -19,10 +19,10 @@ export function Logo({ tone = "light", className = "" }: { tone?: Tone; classNam
   const text = tone === "light" ? "text-espresso" : "text-cream";
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <LogoMark tone={tone} className="h-9 w-9 shrink-0" />
+      <LogoMark tone={tone} className="h-7 w-7 shrink-0 sm:h-9 sm:w-9" />
       <span className={`flex flex-col leading-none ${text}`}>
-        <span className="font-display text-[1.35rem] font-extrabold tracking-[0.12em]">TEMPEST</span>
-        <span className="mt-1 text-[0.5rem] font-semibold tracking-[0.42em]">BARBER LOUNGE</span>
+        <span className="font-display text-[clamp(0.92rem,4vw,1.35rem)] font-extrabold tracking-[0.08em] sm:tracking-[0.12em]">TEMPEST</span>
+        <span className="mt-1 text-[0.38rem] font-semibold tracking-[0.3em] sm:text-[0.5rem] sm:tracking-[0.42em]">BARBER LOUNGE</span>
       </span>
     </span>
   );
