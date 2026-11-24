@@ -62,16 +62,17 @@ export function BookingWizard({
   const barber = cfg?.barbers.find((b) => b.id === barberId) ?? null;
 
   useEffect(() => {
-    if (!date || !serviceId || !barberId) return;
-    let alive = true;
+    if (!date || !serviceId || !barberId || !svc) return;
     setSlots(null);
-    api<{ slots: { start: number; label: string }[] }>(`/api/availability/slots?date=${date}&serviceId=${serviceId}&barberId=${barberId}`)
-      .then((r) => alive && setSlots(r.slots))
-      .catch((e) => alive && (toast(e.message, "error"), setSlots([])));
-    return () => {
-      alive = false;
-    };
-  }, [date, serviceId, barberId, toast]);
+    const saved = JSON.parse(localStorage.getItem("tempest_showcase_bookings") || "[]") as Booking[];
+    const busySlots = saved.filter((b) => b.date === date && (barberId === "any" || b.barberName === barber?.name));
+    const available: { start: number; label: string }[] = [];
+    for (let minute = 9 * 60; minute + svc.durationMin <= 18 * 60; minute += 30) {
+      const conflict = busySlots.some((b) => minute < b.startMin + b.durationMin && minute + svc.durationMin > b.startMin);
+      if (!conflict) available.push({ start: minute, label: fmtMin(minute) });
+    }
+    setSlots(available);
+  }, [date, serviceId, barberId, svc, barber]);
 
   const due = useMemo(() => {
     if (!cfg || !svc) return 0;
@@ -86,29 +87,19 @@ export function BookingWizard({
     if (!svc || !date || start === null || !barberId) return;
     setBusy(true);
     try {
-      const r = await api<{ booking: Booking }>("/api/bookings", "POST", {
-        serviceId: svc.id,
-        barberId: barberId === "any" ? null : barberId,
-        date,
-        startMin: start,
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        notes: form.notes,
-        paymentMethod: method || "pay_at_shop",
-      });
-      setDone(r.booking);
+      const saved = JSON.parse(localStorage.getItem("tempest_showcase_bookings") || "[]") as Booking[];
+      const chosenBarber = barber?.name ?? cfg?.barbers[0]?.name ?? "Barber";
+      const booking: Booking = {
+        id: crypto.randomUUID(), reference: "TMP-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
+        serviceName: svc.name, barberName: chosenBarber, date, startMin: start, priceNgn: svc.priceNgn,
+        amountDueNgn: 0, status: "confirmed", customerName: form.name, customerPhone: form.phone,
+        customerEmail: form.email, notes: form.notes, paymentMethod: "pay_at_shop", durationMin: svc.durationMin,
+      };
+      localStorage.setItem("tempest_showcase_bookings", JSON.stringify([...saved, booking]));
+      setDone(booking);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e) {
-      const msg = (e as Error).message;
-      toast(msg, "error");
-      if (/taken|not available|just/i.test(msg)) {
-        setStart(null);
-        setStep(4);
-        setDate((d) => (d ? d + "" : d));
-        setSlots(null);
-        api<{ slots: { start: number; label: string }[] }>(`/api/availability/slots?date=${date}&serviceId=${serviceId}&barberId=${barberId}`).then((r2) => setSlots(r2.slots)).catch(() => {});
-      }
+      toast("Could not save this booking in this browser. Please try again.", "error");
     } finally {
       setBusy(false);
     }
