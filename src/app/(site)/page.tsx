@@ -128,7 +128,44 @@ export default async function HomePage() {
           <ReviewsWall compact />
         </div>
       </section>
-      <Newsletter />
+
+      <section className="bg-cream py-20 md:py-28">
+        <div className="container-x grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
+          <div data-reveal>
+            <p className="eyebrow text-cobalt">The reason behind Tempest</p>
+            <h2 className="display mt-4 text-4xl md:text-6xl">A better answer to the everyday haircut.</h2>
+            <p className="mt-6 leading-relaxed text-espresso/75">Finding a barber should not feel like guesswork. Customers want to know what services are available, understand the cost, see styles before choosing and feel confident about the person they are trusting with their look.</p>
+            <p className="mt-4 leading-relaxed text-espresso/75">Tempest brings those details into one considered experience: a clear service menu, a visual style gallery, helpful appointment planning and a place for customers to share feedback.</p>
+            <Link href="/about" className="btn btn-outline mt-8">Discover our approach <ArrowRight className="h-4 w-4"/></Link>
+          </div>
+          <div className="grid grid-cols-2 gap-3" data-reveal>
+            <div className="img-zoom col-span-2 aspect-[16/9] overflow-hidden rounded-md"><img src={IMG.interiorWide} alt="Welcoming modern barber lounge" loading="lazy" className="h-full w-full object-cover"/></div>
+            <div className="img-zoom aspect-[4/5] overflow-hidden rounded-md"><img src={IMG.cutting} alt="Barber delivering a precision haircut" loading="lazy" className="h-full w-full object-cover"/></div>
+            <div className="img-zoom aspect-[4/5] overflow-hidden rounded-md"><img src={IMG.detail} alt="Professional barber tools prepared for a service" loading="lazy" className="h-full w-full object-cover"/></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-sand py-20 md:py-28">
+        <div className="container-x">
+          <div className="mx-auto mb-12 max-w-2xl text-center" data-reveal><p className="eyebrow text-cobalt">A more considered visit</p><h2 className="display mt-3 text-4xl md:text-6xl">From inspiration to fresh finish.</h2><p className="mt-4 leading-relaxed text-espresso/70">A simple journey designed to make every step clearer before you take your seat.</p></div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {n:"01",t:"Explore your options",d:"Browse services and haircut references to find a direction that feels right."},
+              {n:"02",t:"Plan with confidence",d:"Review service details, choose your preferred appointment options and add notes about your look."},
+              {n:"03",t:"Enjoy the details",d:"Arrive ready to discuss the finish, then leave with a style that feels like you."}
+            ].map((x,i)=><article key={x.n} className="border-t border-espresso/25 bg-cream/70 p-6 md:p-8" data-reveal style={{"--d":`${i*90}ms`} as React.CSSProperties}><span className="display text-4xl text-cobalt">{x.n}</span><h3 className="display mt-8 text-2xl">{x.t}</h3><p className="mt-3 text-sm leading-relaxed text-espresso/70">{x.d}</p></article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-espresso py-20 text-cream md:py-24">
+        <div className="container-x grid items-center gap-8 md:grid-cols-[1.2fr_.8fr]">
+          <div data-reveal><p className="eyebrow text-sand">Our commitment</p><h2 className="display mt-3 text-4xl md:text-6xl">Good service is in the details.</h2><p className="mt-5 max-w-xl leading-relaxed text-cream/70">We believe a professional grooming experience should feel welcoming, considered and consistent. From the first question to the final check in the mirror, the little things matter.</p></div>
+          <div className="grid grid-cols-2 gap-3" data-reveal>{["Clear communication","Style-led guidance","Thoughtful service","Customer feedback"].map((x)=><div key={x} className="border border-cream/20 p-4 text-sm font-medium sm:p-5">{x}</div>)}</div>
+        </div>
+      </section>
+\n      <Newsletter />
     </>
   );
 }
