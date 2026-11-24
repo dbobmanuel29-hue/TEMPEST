@@ -34,11 +34,32 @@ export function Header({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [activeUser, setActiveUser] = useState(user);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searching, setSearching] = useState(false);
   const [q, setQ] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const syncSession = () => {
+      try {
+        const id = localStorage.getItem("tempest_showcase_session");
+        const users = JSON.parse(localStorage.getItem("tempest_showcase_users") || "[]") as { id: string; name: string; role?: string }[];
+        const current = users.find((item) => item.id === id);
+        setActiveUser(current ? { name: current.name, role: current.role || "customer" } : null);
+      } catch {
+        setActiveUser(null);
+      }
+    };
+    syncSession();
+    window.addEventListener("storage", syncSession);
+    window.addEventListener("tempest-auth-change", syncSession);
+    return () => {
+      window.removeEventListener("storage", syncSession);
+      window.removeEventListener("tempest-auth-change", syncSession);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -73,7 +94,7 @@ export function Header({
     : [];
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
-  const accountHref = user ? (user.role === "admin" ? "/admin" : "/account") : "/login";
+  const accountHref = activeUser ? (activeUser.role === "admin" ? "/admin" : "/account") : "/login";
 
   return (
     <>
@@ -109,10 +130,10 @@ export function Header({
             <button aria-label="Search" onClick={() => setSearching(true)} className="rounded p-2 transition hover:bg-espresso/10">
               <Search className="h-[18px] w-[18px]" />
             </button>
-            <Link href={accountHref} aria-label={user ? `Account (${user.name})` : "Sign in"} className="rounded p-2 transition hover:bg-espresso/10">
-              {user ? (
+            <Link href={accountHref} aria-label={activeUser ? `Account (${activeUser.name})` : "Sign in"} className="rounded p-2 transition hover:bg-espresso/10">
+              {activeUser ? (
                 <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-espresso text-[0.65rem] font-bold text-cream">
-                  {user.name.charAt(0).toUpperCase()}
+                  {activeUser.name.charAt(0).toUpperCase()}
                 </span>
               ) : (
                 <User className="h-[18px] w-[18px]" />
@@ -156,7 +177,7 @@ export function Header({
             ))}
             <Link href="/barbers" className="py-4 text-sm uppercase tracking-[0.18em] text-cream/80">Our Barbers</Link>
             <Link href={accountHref} className="py-2 text-sm uppercase tracking-[0.18em] text-cream/80">
-              {user ? (user.role === "admin" ? "Admin dashboard" : "My account") : "Sign in / Register"}
+              {activeUser ? (activeUser.role === "admin" ? "Admin dashboard" : "My account") : "Sign in / Register"}
             </Link>
             <Link href="/book" className="btn btn-primary mt-6 w-full !py-4">Book Appointment</Link>
           </nav>
