@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { PageDepth } from "@/components/PageDepth";
 import { RevealObserver } from "@/components/Reveal";
 import { getUser } from "@/lib/auth";
 import { getServices } from "@/lib/data";
@@ -16,7 +15,6 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
     <>
       <Header user={user ? { name: user.name, role: user.role } : null} services={list} />
       <main id="main">{children}</main>
-      <PageDepth />
       <Footer contact={contact} business={business} services={list} />
       <RevealObserver />
     </>
