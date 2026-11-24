@@ -2,7 +2,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { WhatsAppIcon } from "@/components/icons";
-import { PageHeader } from "@/components/PageHeader";
+import { IMG } from "@/lib/media";
 import { hoursList } from "@/lib/hours";
 import { getBusiness, getContact, whatsappLink } from "@/lib/settings";
 
@@ -12,7 +12,7 @@ export default async function ContactPage() {
   const [c, b] = await Promise.all([getContact(), getBusiness()]);
   return (
     <>
-      <PageHeader eyebrow="Contact" title={<>Visit<br />Tempest</>} intro="Questions about a style, a booking or a special occasion? Get in touch." />
+      <section className="bg-sand"><div className="container-x grid items-center gap-10 py-14 md:py-20 lg:grid-cols-2"><div><p className="eyebrow text-cobalt">Contact & location</p><h1 className="display mt-4 text-5xl md:text-7xl">Come through.<br/>We’re here.</h1><p className="mt-5 max-w-lg text-lg leading-relaxed text-espresso/75">Questions about a style, a booking or a special occasion? Get in touch and let’s make your visit easy from the start.</p><a href={whatsappLink("","Hello Tempest! I'd like to ask about an appointment.")} className="btn btn-primary mt-8">Talk to the team</a></div><div className="img-zoom aspect-[5/4] overflow-hidden rounded-md"><img src={IMG.interiorWide} alt="Modern barber lounge interior" className="h-full w-full object-cover"/></div></div></section>
       <section className="bg-cream py-16 md:py-20">
         <div className="container-x grid gap-14 lg:grid-cols-2">
           <div className="space-y-8">
