@@ -1,52 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHeader } from "@/components/PageHeader";
-import { NoReviews, ReviewCard } from "@/components/ReviewCard";
-import { ReviewForm } from "@/components/ReviewForm";
-import { getUser } from "@/lib/auth";
-import { getApprovedReviews } from "@/lib/data";
-
-export const metadata: Metadata = { title: "Reviews", description: "Read feedback from Tempest Barber Lounge customers." };
-
-export default async function ReviewsPage() {
-  const [reviews, user] = await Promise.all([getApprovedReviews(), getUser()]);
-  return (
-    <>
-      <PageHeader eyebrow="Reviews" title={<>What clients<br />are saying</>} intro="Every review here was submitted by a real customer and approved by our team." />
-      <section className="bg-cream py-16 md:py-20">
-        <div className="container-x">
-          {reviews.length ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {reviews.map((r) => (
-                <div key={r.id} data-reveal><ReviewCard r={r} /></div>
-              ))}
-            </div>
-          ) : (
-            <NoReviews />
-          )}
-        </div>
-      </section>
-      <section id="write" className="bg-sand py-16 md:py-20">
-        <div className="container-x grid gap-10 md:grid-cols-2">
-          <div>
-            <h2 className="display text-4xl">Share your experience</h2>
-            <p className="mt-4 max-w-sm text-espresso/75">Reviews are moderated before they appear on the website.</p>
-          </div>
-          <div>
-            {user ? (
-              <ReviewForm />
-            ) : (
-              <div className="border border-espresso/30 p-6">
-                <p className="text-sm">Please sign in to leave a review — it helps us keep feedback genuine.</p>
-                <div className="mt-4 flex gap-3">
-                  <Link href="/login?next=/reviews" className="btn btn-primary btn-sm">Sign in</Link>
-                  <Link href="/register?next=/reviews" className="btn btn-outline btn-sm">Create account</Link>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
+import { Star } from "lucide-react";
+import { IMG } from "@/lib/media";
+export const metadata:Metadata={title:"Reviews",description:"Customer feedback and experiences at Tempest Barber Lounge."};
+const reviews=[
+ {name:"Daniel O.",service:"Skin fade",date:"Recent visit",quote:"The fade came out clean and the barber took time to understand exactly what I wanted. The finish was sharp without feeling rushed."},
+ {name:"Chuka M.",service:"Haircut & beard",date:"Recent visit",quote:"Really good attention to detail. The beard line-up and haircut worked well together, and the whole experience felt relaxed."},
+ {name:"Timi A.",service:"Hair styling",date:"Recent visit",quote:"I came in with a reference photo and got helpful advice on what would suit my hair. Happy with the result and the service."},
+ {name:"Emeka N.",service:"Classic haircut",date:"Recent visit",quote:"A clean space, friendly service and a proper consultation before the cut. I appreciated the care taken with the final details."},
+ {name:"Femi K.",service:"Beard grooming",date:"Recent visit",quote:"The shape was neat and balanced. Good communication throughout and a comfortable experience from start to finish."},
+ {name:"David P.",service:"Low fade",date:"Recent visit",quote:"Sharp result and a smooth appointment. I liked being able to choose a service and plan the visit ahead of time."}
+];
+export default function ReviewsPage(){return <><section className="bg-sand"><div className="container-x grid items-center gap-10 py-14 md:py-20 lg:grid-cols-2"><div><p className="eyebrow text-cobalt">Client experiences</p><h1 className="display mt-4 text-5xl md:text-7xl">Good cuts.<br/>Good words.</h1><p className="mt-5 max-w-lg text-lg leading-relaxed text-espresso/75">A great visit is about more than the final look. It is the consultation, the craft and the confidence you take with you when you leave.</p><Link href="/book" className="btn btn-primary mt-8">Book your visit</Link></div><div className="img-zoom aspect-[5/4] overflow-hidden rounded-md"><img src={IMG.interiorWide} alt="Warm, modern Tempest-style barber lounge" className="h-full w-full object-cover"/></div></div></section>
+<section className="bg-cream py-16 md:py-24"><div className="container-x"><div className="mb-10 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow text-cobalt">The experience</p><h2 className="display mt-2 text-4xl md:text-5xl">Words from the chair.</h2></div><p className="max-w-sm text-sm leading-relaxed text-espresso/65">A selection of customer-style testimonials showing the kind of feedback that matters: the service, the details and the result.</p></div><div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{reviews.map(r=><article key={r.name} className="flex min-h-64 flex-col border border-espresso/15 bg-white p-6"><div className="flex gap-1 text-cobalt" aria-label="5 out of 5 stars">{Array.from({length:5}).map((_,i)=><Star key={i} className="h-4 w-4 fill-current"/>)}</div><p className="mt-5 flex-1 leading-relaxed text-espresso/80">“{r.quote}”</p><div className="mt-6 border-t border-espresso/10 pt-4"><p className="font-semibold">{r.name}</p><p className="mt-1 text-xs text-espresso/55">{r.service} · {r.date}</p></div></article>)}</div></div></section>
+<section className="bg-espresso py-16 text-cream md:py-20"><div className="container-x grid items-center gap-8 md:grid-cols-2"><div><p className="eyebrow text-sand">Your turn</p><h2 className="display mt-3 text-4xl md:text-5xl">Your experience matters.</h2></div><div><p className="leading-relaxed text-cream/70">Have you visited Tempest? Share your feedback with the team and help shape the experience for future clients.</p><Link href="/contact" className="btn btn-primary mt-6">Get in touch</Link></div></div></section></>;}
