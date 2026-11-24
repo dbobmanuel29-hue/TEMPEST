@@ -92,7 +92,7 @@ export function BookingWizard({
       const booking: Booking = {
         id: crypto.randomUUID(), reference: "TMP-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
         serviceName: svc.name, barberName: chosenBarber, date, startMin: start, priceNgn: svc.priceNgn,
-        amountDueNgn: 0, status: "confirmed", customerName: form.name, customerPhone: form.phone,
+        amountDueNgn: 0, status: "saved", customerName: form.name, customerPhone: form.phone,
         customerEmail: form.email, notes: form.notes, paymentMethod: "pay_at_shop", durationMin: svc.durationMin,
       };
       localStorage.setItem("tempest_showcase_bookings", JSON.stringify([...saved, booking]));
@@ -132,10 +132,8 @@ export function BookingWizard({
     return (
       <div className="container-x max-w-3xl py-12 md:py-20" style={{ animation: "pop 0.3s ease" }}>
         <div className="flex h-14 w-14 items-center justify-center bg-cobalt text-white"><Check className="h-7 w-7" /></div>
-        <h1 className="display mt-6 text-4xl md:text-6xl">Booking {done.status === "confirmed" ? "confirmed" : "received"}</h1>
-        <p className="mt-4 text-espresso/80">
-          {done.status === "confirmed" ? "You're all set." : "Your appointment is pending — we'll confirm it shortly."} Keep your reference to check or manage this booking.
-        </p>
+        <h1 className="display mt-6 text-4xl md:text-6xl">Booking saved</h1>
+        <p className="mt-4 text-espresso/80">This appointment is saved in this browser only. The shop has not received or confirmed it. Keep your reference for your own records.</p>
         <div className="mt-8 border-2 border-espresso bg-cream p-6">
           <p className="eyebrow text-espresso/60">Booking reference</p>
           <p className="display mt-1 text-4xl tracking-wide text-cobalt">{done.reference}</p>
@@ -165,7 +163,7 @@ export function BookingWizard({
           </div>
         )}
         {!bank && !card && <p className="mt-6 text-sm text-espresso/70">Payment is due at the barbershop after your service.</p>}
-        <p className="mt-6 text-sm text-espresso/70">Cancel online up to {cfg.business.cancelHoursBefore} hours before your appointment. A confirmation email is sent when email delivery is configured.</p>
+        <p className="mt-6 text-sm text-espresso/70">This frontend showcase does not send the booking to the shop, send email, or process payments.</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href={user ? "/account" : `/booking/manage?ref=${done.reference}`} className="btn btn-dark">Manage booking</Link>
           <Link href="/" className="btn btn-outline">Back to home</Link>
