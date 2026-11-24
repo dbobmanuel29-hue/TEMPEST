@@ -103,8 +103,8 @@ export function Header({
           scrolled ? "border-espresso/10 bg-sand/95 shadow-sm backdrop-blur" : "border-transparent bg-sand"
         }`}
       >
-        <div className={`container-x flex items-center justify-between gap-4 transition-all duration-300 ${scrolled ? "h-14" : "h-[4.5rem]"}`}>
-          <Link href="/" aria-label="Tempest Barber Lounge — home" className="shrink-0">
+        <div className={`container-x flex min-w-0 items-center justify-between gap-2 sm:gap-4 transition-all duration-300 ${scrolled ? "h-14" : "h-[4.5rem]"}`}>
+          <Link href="/" aria-label="Tempest Barber Lounge — home" className="min-w-0 shrink">
             <Logo tone="light" />
           </Link>
 
@@ -126,7 +126,7 @@ export function Header({
             ))}
           </nav>
 
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-2">
             <button aria-label="Search" onClick={() => setSearching(true)} className="rounded p-2 transition hover:bg-espresso/10">
               <Search className="h-[18px] w-[18px]" />
             </button>
@@ -139,7 +139,7 @@ export function Header({
                 <User className="h-[18px] w-[18px]" />
               )}
             </Link>
-            <Link href="/book" className="btn btn-primary btn-sm ml-1 !px-3 sm:!px-5 sm:!py-3">
+            <Link href="/book" className="btn btn-primary btn-sm ml-0 !px-2.5 !py-2.5 !text-[0.6rem] !tracking-[0.08em] sm:ml-1 sm:!px-5 sm:!py-3 sm:!text-[0.66rem] sm:!tracking-[0.16em]">
               <span className="sm:hidden">Book</span>
               <span className="hidden sm:inline">Book Appointment</span>
             </Link>
@@ -147,7 +147,7 @@ export function Header({
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((o) => !o)}
-              className="rounded p-2 transition hover:bg-espresso/10 lg:hidden"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded p-2 transition hover:bg-espresso/10 lg:hidden"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -157,11 +157,11 @@ export function Header({
         {/* Mobile menu */}
         <div
           style={{ top: scrolled ? "3.5rem" : "4.5rem" }}
-          className={`fixed inset-x-0 bottom-0 z-40 overflow-y-auto bg-espresso text-cream transition-all duration-300 lg:hidden ${
+          className={`fixed left-0 right-0 bottom-0 z-40 w-full max-w-[100vw] overflow-x-hidden overflow-y-auto bg-espresso pb-[max(1.5rem,env(safe-area-inset-bottom))] text-cream transition-all duration-300 lg:hidden ${
             open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-3 opacity-0"
           }`}
         >
-          <nav aria-label="Mobile" className="container-x flex flex-col py-6">
+          <nav aria-label="Mobile" className="container-x flex min-w-0 flex-col py-6">
             {NAV.map((n, i) => (
               <Link
                 key={n.href}
