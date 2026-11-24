@@ -63,3 +63,27 @@ a:not(.btn) { transition: color .2s ease; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
+
+
+/* Responsive safety pass: narrow phones, curved-edge screens and tablets */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+body { min-width: 320px; }
+img, video, iframe, canvas, svg { max-width: 100%; }
+button, input, select, textarea { max-width: 100%; }
+input, select, textarea { min-width: 0; }
+.container-x { padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); }
+main, section, article, header, footer, nav, form, fieldset { min-width: 0; }
+.display { overflow-wrap: anywhere; hyphens: auto; }
+.btn { max-width: 100%; white-space: normal; text-align: center; line-height: 1.25; }
+table { display: block; max-width: 100%; overflow-x: auto; }
+pre, code { overflow-wrap: anywhere; }
+@media (max-width: 480px) {
+  .container-x { padding-left: max(.875rem, env(safe-area-inset-left)); padding-right: max(.875rem, env(safe-area-inset-right)); }
+  .btn { padding: .72rem .9rem; font-size: .66rem; letter-spacing: .1em; }
+  .display { letter-spacing: -.04em; }
+  h1.display { font-size: clamp(2.45rem, 12vw, 3.8rem); }
+}
+@media (max-width: 360px) {
+  .container-x { padding-left: max(.75rem, env(safe-area-inset-left)); padding-right: max(.75rem, env(safe-area-inset-right)); }
+}
