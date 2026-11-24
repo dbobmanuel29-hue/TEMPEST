@@ -40,15 +40,9 @@ export const DEFAULTS = {
 
 export type SettingKey = keyof typeof DEFAULTS;
 
-export async function getSetting<K extends SettingKey>(key: K, dbx: Db = db): Promise<(typeof DEFAULTS)[K]> {
-  const [row] = await dbx.select().from(settings).where(eq(settings.key, key));
-  const stored = (row?.value ?? {}) as Record<string, unknown>;
-  const base = DEFAULTS[key] as Record<string, unknown>;
-  const merged = { ...base, ...stored } as Record<string, unknown>;
-  if (key === "business") {
-    merged.hours = { ...defaultWeek(), ...((stored.hours as WeekHours | undefined) ?? {}) };
-  }
-  return merged as (typeof DEFAULTS)[K];
+/** Use local defaults for the frontend showcase; no database is required to render pages. */
+export async function getSetting<K extends SettingKey>(key: K, _dbx: Db = db): Promise<(typeof DEFAULTS)[K]> {
+  return DEFAULTS[key];
 }
 
 export const getBusiness = (dbx: Db = db) => getSetting("business", dbx);
