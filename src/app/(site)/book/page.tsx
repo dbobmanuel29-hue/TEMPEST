@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BookingWizard } from "@/components/BookingWizard";
+import { BookingAccess } from "@/components/BookingAccess";
 import { getUser } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Book Appointment", description: "Book your Tempest Barber Lounge appointment online in a few steps." };
@@ -9,7 +9,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
   const user = await getUser();
   return (
     <div className="bg-sand">
-      <BookingWizard user={user ? { name: user.name, email: user.email, phone: user.phone } : null} initialService={service} initialBarber={barber} />
+      <BookingAccess user={user ? { name: user.name, email: user.email, phone: user.phone } : null} initialService={service} initialBarber={barber} />
     </div>
   );
 }
