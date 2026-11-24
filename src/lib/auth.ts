@@ -57,26 +57,8 @@ export async function destroySession() {
   jar.delete(COOKIE);
 }
 
-export const getUser = cache(async (): Promise<SessionUser | null> => {
-  const token = (await cookies()).get(COOKIE)?.value;
-  if (!token) return null;
-  const [row] = await db
-    .select({
-      id: users.id,
-      name: users.name,
-      email: users.email,
-      phone: users.phone,
-      avatarUrl: users.avatarUrl,
-      role: users.role,
-      passwordHash: users.passwordHash,
-    })
-    .from(sessions)
-    .innerJoin(users, eq(users.id, sessions.userId))
-    .where(and(eq(sessions.tokenHash, sha256(token)), gt(sessions.expiresAt, new Date())));
-  if (!row) return null;
-  const { passwordHash, ...rest } = row;
-  return { ...rest, hasPassword: Boolean(passwordHash) };
-});
+/** Frontend showcase mode: customer/admin authentication is disabled until a backend is configured. */
+export const getUser = cache(async (): Promise<SessionUser | null> => null);
 
 export async function getAdmin() {
   const u = await getUser();
