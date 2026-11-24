@@ -12,13 +12,13 @@ export default async function ContactPage() {
   const [c, b] = await Promise.all([getContact(), getBusiness()]);
   return (
     <>
-      <section className="bg-sand"><div className="container-x grid items-center gap-10 py-14 md:py-20 lg:grid-cols-2"><div><p className="eyebrow text-cobalt">Contact & location</p><h1 className="display mt-4 text-5xl md:text-7xl">Come through.<br/>We’re here.</h1><p className="mt-5 max-w-lg text-lg leading-relaxed text-espresso/75">Questions about a style, a booking or a special occasion? Get in touch and let’s make your visit easy from the start.</p><a href={whatsappLink(c.whatsapp,"Hello Tempest! I would like to ask about an appointment.")} className="btn btn-primary mt-8">Talk to the team</a></div><div className="img-zoom aspect-[5/4] overflow-hidden rounded-md"><img src={IMG.interiorWide} alt="Modern barber lounge interior" className="h-full w-full object-cover"/></div></div></section>
+      <section className="overflow-hidden bg-sand"><div className="container-x grid items-center gap-10 py-14 md:py-20 lg:grid-cols-2"><div data-reveal><p className="eyebrow text-cobalt">Contact & location</p><h1 className="display mt-4 text-5xl md:text-7xl">Come through.<br/>We’re here.</h1><p className="mt-5 max-w-lg text-lg leading-relaxed text-espresso/75">Questions about a style, a booking or a special occasion? Get in touch and let’s make your visit easy from the start.</p><a href={whatsappLink(c.whatsapp,"Hello Tempest! I would like to ask about an appointment.")} className="btn btn-primary mt-8">Talk to the team</a></div><div className="relative" data-reveal><div className="absolute -right-3 top-7 h-[88%] w-[78%] bg-cobalt" aria-hidden/><div className="img-zoom relative aspect-[5/4] overflow-hidden rounded-md"><img src={IMG.detail} alt="Professional barber tools prepared for a grooming appointment" fetchPriority="high" className="h-full w-full object-cover"/></div></div></div></section>
       <section className="bg-cream py-16 md:py-20">
         <div className="container-x grid gap-14 lg:grid-cols-2">
           <div className="space-y-8">
             <ul className="space-y-5">
               <li className="flex gap-4"><MapPin className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Address</p><p>{c.address}</p></div></li>
-              <li className="flex gap-4"><Phone className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Phone</p><a href={`tel:${c.phone.replace(/\s/g, "")}`} className="hover:text-cobalt">{c.phone}</a></div></li>
+              <li className="flex gap-4"><Phone className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Phone</p><a href={`tel:${c.phone.replace(/\\s/g, "")}`} className="hover:text-cobalt">{c.phone}</a></div></li>
               <li className="flex gap-4"><Mail className="mt-1 h-5 w-5 shrink-0 text-cobalt" /><div><p className="label">Email</p><a href={`mailto:${c.email}`} className="hover:text-cobalt">{c.email}</a></div></li>
             </ul>
             <a href={whatsappLink(c.whatsapp, "Hello Tempest! I'd like to ask about an appointment.")} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
@@ -40,17 +40,7 @@ export default async function ContactPage() {
           </div>
         </div>
       </section>
-      <section className="bg-sand">
-        <div className="aspect-[4/3] w-full md:aspect-[21/8]">
-          <iframe
-            title="Map showing Tempest Barber Lounge location"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(c.mapQuery)}&output=embed`}
-            className="h-full w-full border-0 grayscale-[30%]"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
-      </section>
+      <section className="bg-sand"><div className="aspect-[4/3] w-full md:aspect-[21/8]"><iframe title="Map showing Tempest Barber Lounge location" src={`https://www.google.com/maps?q=${encodeURIComponent(c.mapQuery)}&output=embed`} className="h-full w-full border-0 grayscale-[30%]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></section>
     </>
   );
 }
