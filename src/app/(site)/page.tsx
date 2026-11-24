@@ -1,9 +1,9 @@
 import { ArrowRight, Crown, ShieldCheck, Sparkles, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { Newsletter } from "@/components/Newsletter";
-import { NoReviews, ReviewCard } from "@/components/ReviewCard";
+import { ReviewsWall } from "@/components/ReviewsWall";
 import { ServiceCard } from "@/components/ServiceCard";
-import { getApprovedReviews, getServices } from "@/lib/data";
+import { getServices } from "@/lib/data";
 import { GALLERY, IMG, px } from "@/lib/media";
 
 const WHY = [
@@ -16,7 +16,7 @@ const WHY = [
 const PREVIEW = [12304510, 19112533, 39945585, 5853395, 4625632, 9374359, 6487911, 13450758].map((id) => GALLERY.find((g) => g.id === id)!);
 
 export default async function HomePage() {
-  const [services, reviews] = await Promise.all([getServices(), getApprovedReviews(6)]);
+  const services = await getServices();
 
   return (
     <>
@@ -125,7 +125,7 @@ export default async function HomePage() {
             <div data-reveal><p className="eyebrow text-cobalt">Reviews</p><h2 className="display mt-3 text-4xl md:text-6xl">Straight from our clients</h2></div>
             <Link href="/reviews" className="eyebrow inline-flex items-center gap-2 border-b-2 border-espresso pb-1 hover:text-cobalt">All reviews <ArrowRight className="h-4 w-4" /></Link>
           </div>
-          {reviews.length ? <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{reviews.map((r) => <div key={r.id} data-reveal><ReviewCard r={r} /></div>)}</div> : <NoReviews />}
+          <ReviewsWall compact />
         </div>
       </section>
       <Newsletter />
